@@ -1,4 +1,4 @@
-FROM golang:1.21-alpine AS builder
+FROM golang:1.21.13-alpine AS builder
 
 WORKDIR /app
 
@@ -20,11 +20,15 @@ FROM alpine:latest
 
 WORKDIR /app
 
+# Создание директорий и настройка прав
+RUN mkdir -p /app/logs && \
+    touch /app/logs/bot.log && \
+    chown -R nobody:nobody /app/logs
+
 # Копирование бинарного файла из предыдущего этапа
 COPY --from=builder /app/bot .
 COPY --from=builder /app/menu ./menu
 
-# Создание пользователя без прав root
 RUN adduser -D appuser
 USER appuser
 
