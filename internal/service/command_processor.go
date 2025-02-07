@@ -8,8 +8,9 @@ import (
 
 const menuPhotoPath = "menu/menu.jpg"
 
+// Deprecated: sendMenu is deprecated in favor of sendInlineMenu
+// nolint:unused
 func (s *Service) sendMenu(chatID int64, messageText string) []MessageResponse {
-
 	keyboard := tgBotAPI.NewReplyKeyboard(
 		tgBotAPI.NewKeyboardButtonRow(
 			tgBotAPI.NewKeyboardButton("Сделать заказ"),
