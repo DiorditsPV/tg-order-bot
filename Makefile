@@ -1,38 +1,37 @@
 .PHONY: build up down restart logs clean help
 
-# Переменные
 DOCKER_COMPOSE = docker-compose
 APP_NAME = orderbot
 
-help: ## Показать это сообщение
+help:
 	@echo "Доступные команды:"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
-build: ## Собрать все образы
+build:
 	$(DOCKER_COMPOSE) build --no-cache
 
-up: ## Запустить все контейнеры
+up:
 	$(DOCKER_COMPOSE) up -d
 
-down: ## Остановить все контейнеры
+down: 
 	$(DOCKER_COMPOSE) down
 
-restart: down up ## Перезапустить все контейнеры
+restart: down up
 
-logs: ## Показать логи приложения
+logs:
 	$(DOCKER_COMPOSE) logs -f app
 
-logs-all: ## Показать логи всех сервисов
+logs-all:
 	$(DOCKER_COMPOSE) logs -f
 
-ps: ## Показать статус контейнеров
+ps: 
 	$(DOCKER_COMPOSE) ps
 
-clean: down ## Очистить все данные (включая volumes)
+clean: down
 	$(DOCKER_COMPOSE) down -v
 	rm -rf logs/*
 
-init: ## Инициализировать проект (создать .env если не существует)
+init:
 	@if [ ! -f .env ]; then \
 		cp .env.example .env; \
 		echo "Создан файл .env. Пожалуйста, настройте переменные окружения."; \
