@@ -74,14 +74,6 @@ jobs:
 
     - name: Run tests
       run: go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
-      env:
-        POSTGRES_HOST: localhost
-        POSTGRES_USER: test
-        POSTGRES_PASSWORD: test
-        POSTGRES_DB: test
-        REDIS_HOST: localhost
-        REDIS_PORT: 6379
-        BOT_TOKEN: test_token
 
     - name: Build
       run: go build -v ./...

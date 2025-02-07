@@ -14,6 +14,7 @@ import (
 const (
 	logBufferSize       = 100
 	defaultLogChannelID = -4714261807
+	logFilePath         = "/app/logs/bot.log"
 	batchSize           = 15
 )
 
@@ -50,9 +51,10 @@ func InitLogger(botAPI *tgBotAPI.BotAPI) {
 		}
 	}
 
-	file, err := os.OpenFile("bot.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	file, err := os.OpenFile(logFilePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("Ошибка открытия лог файла: %v, логи будут писаться только в stdout", err)
+		return
 	}
 
 	infoLogger = log.New(file, "INFO: ", log.Ldate|log.Ltime)
@@ -150,6 +152,7 @@ func LogWarn(format string, v ...interface{}) {
 	sendToChannel(formattedMsg)
 }
 
+// nolint:unused
 func LogWarnWithContext(ctx *LogContext, format string, v ...interface{}) {
 	msg := fmt.Sprintf(format, v...)
 	formattedMsg := formatMessage("WARN", msg, ctx)
@@ -166,6 +169,7 @@ func LogError(format string, v ...interface{}) {
 	sendToChannel(formattedMsg)
 }
 
+// nolint:unused
 func LogErrorWithContext(ctx *LogContext, format string, v ...interface{}) {
 	msg := fmt.Sprintf(format, v...)
 	formattedMsg := formatMessage("ERROR", msg, ctx)
