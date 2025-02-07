@@ -1,0 +1,17 @@
+# Environment variables
+.env
+
+# Logs
+logs/
+*.log
+
+# Binary files
+bot
+orderbot
+
+# IDE files
+.idea/
+.vscode/
+
+# Dependencies
+vendor/ 
