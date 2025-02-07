@@ -2,9 +2,6 @@ package domain
 
 import tgBotAPI "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 
-type session interface {
-	SetFlagValue(string, bool)
-}
 type Session struct {
 	ChatID     int64
 	State      string
@@ -67,7 +64,7 @@ func (s *Session) DropProductFromCart(productID string) {
 }
 
 func (s *Session) GetOrderBagKeyboard(prefix string) tgBotAPI.InlineKeyboardMarkup {
-	var buttons [][]tgBotAPI.InlineKeyboardButton
+	buttons := make([][]tgBotAPI.InlineKeyboardButton, 0, len(s.OrderBag))
 	for _, order := range s.OrderBag {
 		buttons = append(buttons, []tgBotAPI.InlineKeyboardButton{
 			tgBotAPI.NewInlineKeyboardButtonData(order.Product, prefix+order.ID),
